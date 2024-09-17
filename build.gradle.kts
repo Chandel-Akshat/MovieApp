@@ -71,6 +71,7 @@
 
         implementation("com.google.dagger:hilt-android:2.48")
         kapt("com.google.dagger:hilt-compiler:2.48")
+        kapt ("com.google.dagger:hilt-android-compiler:2.48")
 
         implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
 
@@ -97,6 +98,14 @@
 
         implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
 
+        val room_version = "2.6.1"
+
+        implementation ("androidx.room:room-ktx:$room_version") // Update to the latest version if needed
+
+        implementation("androidx.room:room-runtime:$room_version")
+        annotationProcessor("androidx.room:room-compiler:$room_version")
+        kapt("androidx.room:room-compiler:$room_version")
+        // Room dependencies
     }
 
     kapt {

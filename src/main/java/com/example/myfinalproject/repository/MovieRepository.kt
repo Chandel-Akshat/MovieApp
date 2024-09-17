@@ -1,14 +1,17 @@
 package com.example.myfinalproject.repository
 
 import com.example.myfinalproject.api.MovieNAPI
+import com.example.myfinalproject.database.FavoriteMovie
+import com.example.myfinalproject.database.FavoriteMovieDao
 import com.example.myfinalproject.models.Cast
 import com.example.myfinalproject.models.Credit
 import kotlinx.coroutines.flow.MutableStateFlow
 import com.example.myfinalproject.models.Result
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(private val movieNAPI: MovieNAPI) {
+class MovieRepository @Inject constructor(private val movieNAPI: MovieNAPI, private val favoriteMovieDao: FavoriteMovieDao) {
 
     private val _nowplaying = MutableStateFlow<List<Result>>(emptyList())
     val nowPlayingMovies:StateFlow<List<Result>>
@@ -66,6 +69,18 @@ class MovieRepository @Inject constructor(private val movieNAPI: MovieNAPI) {
         }
     }
 
+
+    suspend fun addMovieToFavorites(movie: FavoriteMovie) {
+        favoriteMovieDao.insert(movie)
+    }
+
+    fun getAllFavoriteMovies(): Flow<List<FavoriteMovie>> {
+        return favoriteMovieDao.getAllFavoriteMovies()
+    }
+
+    suspend fun deleteFavoriteMovie(id: Int) {
+        favoriteMovieDao.deleteById(id)
+    }
 
 
 }

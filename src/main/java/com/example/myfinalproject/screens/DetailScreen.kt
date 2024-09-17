@@ -208,6 +208,19 @@ fun DetailScreen(movie: Result, onBack: () -> Unit,onMovieClick: (Result) -> Uni
                                             }
                                         }
                                 )
+
+                            }
+                            Spacer(modifier = Modifier.width(20.dp))
+                            Button(
+                                onClick = {
+                                    movieViewModel.addToFavorites(movie)
+                                },
+                                modifier = Modifier
+                                    .height(40.dp)
+                                    .width(200.dp)
+                                    .align(Alignment.CenterHorizontally)
+                            ) {
+                                Text("Add to Favorites")
                             }
                         }
                     }

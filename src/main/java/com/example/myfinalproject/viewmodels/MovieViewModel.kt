@@ -2,10 +2,12 @@ package com.example.myfinalproject.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myfinalproject.database.FavoriteMovie
 import com.example.myfinalproject.models.Cast
 import com.example.myfinalproject.models.Result
 import com.example.myfinalproject.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -124,6 +126,27 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
     }
     fun setCategory(category: String) {
         _selectedCategory.value = category
+    }
+    fun addToFavorites(movie: Result) {
+        viewModelScope.launch {
+            val favoriteMovie = FavoriteMovie(
+                id = movie.id,
+                title = movie.title,
+                posterPath = movie.poster_path,
+                overview = movie.overview
+            )
+            repository.addMovieToFavorites(favoriteMovie)
+        }
+    }
+
+    fun getFavoriteMovies(): Flow<List<FavoriteMovie>> {
+        return repository.getAllFavoriteMovies()
+    }
+
+    fun removeFavoriteMovie(id: Int) {
+        viewModelScope.launch {
+            repository.deleteFavoriteMovie(id)
+        }
     }
 }
 
